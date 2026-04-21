@@ -2,6 +2,10 @@
 
 IRC-compliant stair stringer calculator. Enter a floor-to-floor rise and get a live side-profile diagram with riser, tread, angle, and throat math — plus auto-placed intermediate landings, one-click auto-fix for code failures, and a clean PDF spec sheet for handoff.
 
+### → [Try it live at hgolden62.github.io/StairMath](https://hgolden62.github.io/StairMath/)
+
+No install needed — it runs entirely in your browser. The instructions below are only for running or modifying the app locally.
+
 ## Features
 
 - **Real-time calculation.** Every input updates the layout, diagram, and compliance panel as you type — no submit button.
