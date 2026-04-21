@@ -1,0 +1,375 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Fraunces", ui-serif, Georgia, serif;
+  --font-sans: "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, Consolas, monospace;
+
+  --color-ink: #f1f5f9;
+  --color-ink-muted: #94a3b8;
+  --color-accent: #7dd3fc;
+  --color-warn: #fbbf24;
+  --color-fail: #fb7185;
+  --color-pass: #7dd3fc;
+}
+
+:root {
+  color-scheme: dark;
+  font-family: var(--font-sans);
+  color: var(--color-ink);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background: #0a0e1a;
+}
+
+body {
+  background:
+    radial-gradient(
+      ellipse 1200px 800px at 85% 0%,
+      rgba(125, 211, 252, 0.12),
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 900px 700px at 15% 100%,
+      rgba(167, 139, 250, 0.1),
+      transparent 60%
+    ),
+    radial-gradient(ellipse at center, #111827 0%, #0a0e1a 80%);
+  background-attachment: fixed;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Liquid glass surface */
+.glass {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(24px) saturate(1.4);
+  -webkit-backdrop-filter: blur(24px) saturate(1.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    0 20px 60px -20px rgba(0, 0, 0, 0.5);
+  position: relative;
+  overflow: hidden;
+}
+
+.glass::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(
+    circle at top left,
+    rgba(255, 255, 255, 0.12),
+    transparent 60%
+  );
+  pointer-events: none;
+  opacity: 0.8;
+  transition: opacity 300ms ease;
+}
+
+.glass.interactive:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.glass.interactive:hover::before {
+  opacity: 1;
+}
+
+/* Inputs */
+.glass-input {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--color-ink);
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-variant-numeric: tabular-nums;
+  width: 100%;
+  transition:
+    border-color 200ms ease,
+    box-shadow 200ms ease,
+    background 200ms ease;
+}
+
+.glass-input:focus {
+  outline: none;
+  border-color: rgba(125, 211, 252, 0.5);
+  box-shadow:
+    0 0 0 3px rgba(125, 211, 252, 0.15),
+    0 0 20px rgba(125, 211, 252, 0.2);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* Hide number spinners */
+.glass-input::-webkit-outer-spin-button,
+.glass-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.glass-input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+/* Atmospheric blobs */
+.blob {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: 0;
+  will-change: transform;
+}
+
+.blob-1 {
+  width: 600px;
+  height: 600px;
+  background: #06b6d4;
+  top: -200px;
+  right: -100px;
+  animation: drift1 26s ease-in-out infinite;
+}
+
+.blob-2 {
+  width: 500px;
+  height: 500px;
+  background: #8b5cf6;
+  bottom: -150px;
+  left: -100px;
+  animation: drift2 32s ease-in-out infinite;
+}
+
+.blob-3 {
+  width: 400px;
+  height: 400px;
+  background: #1e40af;
+  top: 40%;
+  left: 50%;
+  animation: drift3 28s ease-in-out infinite;
+}
+
+@keyframes drift1 {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-80px, 60px) scale(1.1);
+  }
+}
+@keyframes drift2 {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(100px, -40px) scale(1.15);
+  }
+}
+@keyframes drift3 {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    transform: translate(-30%, -60%) scale(0.9);
+  }
+}
+
+/* Grain overlay */
+.grain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.04;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 1 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+/* Typography utilities */
+.font-display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Segmented control */
+.segmented {
+  display: inline-flex;
+  padding: 4px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  position: relative;
+}
+
+.segmented button {
+  position: relative;
+  z-index: 1;
+  padding: 6px 18px;
+  font-size: 13px;
+  font-family: var(--font-sans);
+  color: var(--color-ink-muted);
+  background: transparent;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: color 200ms ease;
+}
+
+.segmented button.active {
+  color: var(--color-ink);
+  background: rgba(125, 211, 252, 0.15);
+  box-shadow: inset 0 0 0 1px rgba(125, 211, 252, 0.3);
+}
+
+/* Compliance pills */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.pill-pass {
+  background: rgba(125, 211, 252, 0.15);
+  color: #7dd3fc;
+  border: 1px solid rgba(125, 211, 252, 0.3);
+}
+
+.pill-warn {
+  background: rgba(251, 191, 36, 0.15);
+  color: #fbbf24;
+  border: 1px solid rgba(251, 191, 36, 0.3);
+}
+
+.pill-fail {
+  background: rgba(251, 113, 133, 0.15);
+  color: #fb7185;
+  border: 1px solid rgba(251, 113, 133, 0.3);
+}
+
+/* Ghost button */
+.ghost-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--color-ink-muted);
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 200ms ease;
+  width: 100%;
+}
+
+.ghost-btn:hover {
+  color: var(--color-ink);
+  border-color: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.ghost-btn:focus-visible {
+  outline: none;
+  border-color: rgba(125, 211, 252, 0.5);
+  box-shadow: 0 0 0 3px rgba(125, 211, 252, 0.15);
+}
+
+/* Auto-fix button (appears when compliance fails) */
+.auto-fix-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: linear-gradient(
+    180deg,
+    rgba(125, 211, 252, 0.22) 0%,
+    rgba(125, 211, 252, 0.12) 100%
+  );
+  border: 1px solid rgba(125, 211, 252, 0.4);
+  color: #7dd3fc;
+  padding: 9px 16px;
+  border-radius: 12px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 6px 20px -8px rgba(125, 211, 252, 0.4);
+  transition: all 180ms ease;
+}
+
+.auto-fix-btn:hover {
+  border-color: rgba(125, 211, 252, 0.6);
+  color: #bae6fd;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    0 8px 24px -6px rgba(125, 211, 252, 0.5);
+  transform: translateY(-1px);
+}
+
+.auto-fix-btn:active {
+  transform: translateY(0);
+}
+
+.auto-fix-btn:focus-visible {
+  outline: none;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    0 0 0 3px rgba(125, 211, 252, 0.25);
+}
+
+/* Export button */
+.export-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--color-ink);
+  padding: 7px 12px;
+  border-radius: 10px;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 180ms ease;
+}
+
+.export-btn:hover {
+  border-color: rgba(125, 211, 252, 0.4);
+  color: #7dd3fc;
+  background: rgba(125, 211, 252, 0.08);
+}
+
+.export-btn:focus-visible {
+  outline: none;
+  border-color: rgba(125, 211, 252, 0.5);
+  box-shadow: 0 0 0 3px rgba(125, 211, 252, 0.15);
+}
